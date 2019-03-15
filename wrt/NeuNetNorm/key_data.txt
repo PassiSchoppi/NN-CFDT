@@ -1,0 +1,6 @@
+b'neurons_per_layer: 15'
+b'training_mode: 1'
+b'layer: 5'
+b'field: 2'
+b'record: 1500'
+b'training_length: 100'
