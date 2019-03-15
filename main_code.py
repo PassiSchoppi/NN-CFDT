@@ -7,6 +7,7 @@ import Course  # noqa: E402
 import NeuNet  # noqa: E402
 import plott  # noqa: E402
 
+# key data
 neuronsPerLayer = 15
 layer = 5
 field = 2

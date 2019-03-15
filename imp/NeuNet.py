@@ -9,6 +9,7 @@ class NeuNet:
     NeuNetContent = np.array([])
     fitnessHistory = np.array([])
 
+    # initialising
     def __init__(self, a_name_of_content_csv, a_name_of_history_csv, a_layer, a_neurons_per_layer, a_field):
         self.name_of_csv = str(a_name_of_content_csv)
         self.name_of_history_csv = str(a_name_of_history_csv)
@@ -22,6 +23,7 @@ class NeuNet:
     def sigmoid(x):
         return 1.0 / (1.0 + np.exp(-1.0 * x/2)) - 0.5
 
+    # function to rate the prediction
     @staticmethod
     def rating(real,  prediction, mode="sqr"):
         reward = real * prediction
@@ -44,16 +46,19 @@ class NeuNet:
             reward = -10*(prediction - real)*(prediction - real) + abs(reward)*10
             return reward
 
+    # reading data
     def read(self):
         self.NeuNetContent = np.genfromtxt(self.name_of_csv, delimiter=',')
         self.fitnessHistory = np.genfromtxt(self.name_of_history_csv)
-    
+
+    # writing data
     def write(self):
         # noinspection PyTypeChecker
         np.savetxt(self.name_of_csv, self.NeuNetContent, delimiter=",")
         # noinspection PyTypeChecker
         np.savetxt(self.name_of_history_csv, self.fitnessHistory)
 
+    # resetting neural network
     def reset(self, ask=True):
         tun = False
         if ask:
@@ -65,10 +70,12 @@ class NeuNet:
             self.fitnessHistory = np.array([])
             self.NeuNetContent = (np.random.random_sample((self.layer, self.neurons_per_layer))-0.5)*2*self.field
 
+    # get one layer of synapses
     def one_layer(self, layer_id):
         layer_id *= self.neurons_per_layer
         return self.NeuNetContent[layer_id:layer_id+self.neurons_per_layer]
 
+    # get prediction from neural network
     def predict(self, input_from_course):
         for i in range(len(input_from_course)):
             input_from_course[i] = self.sigmoid(input_from_course[i])
@@ -81,6 +88,7 @@ class NeuNet:
                 first_layer[o] = self.sigmoid(first_layer[o])
         return np.sum(first_layer)
 
+    # get fitness of neural network
     # noinspection PyUnboundLocalVariable
     def get_fitness(self, course, return_all=False, mode="pro"):
         # enable the could_be stuff for meaningful results in %
@@ -108,7 +116,9 @@ class NeuNet:
             total = (total/could_be)*100
         return total
 
+    # train neural network
     def train(self, course, method=None, return_fit=True, iterations=100):
+        # mutate one synapse
         if (method == "synapse") or (method == 0):
             start_fitness = self.get_fitness(course)
             for _ in tqdm(range(0, iterations)):
@@ -127,6 +137,7 @@ class NeuNet:
                 if return_fit:
                     self.fitnessHistory = np.append(self.fitnessHistory, start_fitness)
 
+        # mutate all synapses from one neuron
         if (method == "neuron") or (method == 1):
             start_fitness = self.get_fitness(course, mode="bin")
             for _ in tqdm(range(0, iterations)):
@@ -144,6 +155,7 @@ class NeuNet:
                 if return_fit:
                     self.fitnessHistory = np.append(self.fitnessHistory, start_fitness)
 
+        # train to predict every day on its own
         if (method == "day") or (method == 2):
             for _ in tqdm(range(0, iterations)):
                 # get dataset

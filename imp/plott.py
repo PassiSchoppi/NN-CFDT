@@ -1,4 +1,4 @@
-from bokeh.plotting import figure, output_file, show
+from bokeh.plotting import figure, output_file, show, save
 import numpy as np
 
 
