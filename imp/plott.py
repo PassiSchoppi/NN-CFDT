@@ -14,17 +14,19 @@ class Plott:
                         x_axis_label=str(self.x_label),
                         y_axis_label=str(self.y_label))
 
-    def add_graph(self, y, mode="line",
+    def add_graph(self, y, alpha=1, mode="line",
                   legend="", colour="blue", width=2):
         if mode == "line":
             self.p.line(np.arange(0, len(y), 1), y,
                         legend=str(legend),
                         line_width=int(width),
+                        line_alpha=alpha,
                         line_color=str(colour))
         elif mode == "circle":
             self.p.circle(np.arange(0, len(y), 1), y,
                           legend=str(legend),
                           fill_color=str(colour),
+                          fill_alpha=alpha,
                           line_color=str(colour),
                           size=int(width))
 

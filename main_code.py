@@ -8,16 +8,15 @@ import NeuNet  # noqa: E402
 import plott  # noqa: E402
 
 # key data
-neuronsPerLayer = 15
-layer = 5
+neuronsPerLayer = 5
+layer = 10
 field = 2
-record = 1500
+record = 750
 training_mode = 1
 
 # initialising course
 course_GOOG = Course.Course("GOOG", "wrt/CourseGOOG.csv")
-if input("want to download latest course(y/n): ") == "y":
-    course_GOOG.download_course()
+course_GOOG.download_course(ask=True)
 course_GOOG.read_course()
 course_GOOG.reformat_course(days_testing=110, record_size=record)
 
@@ -41,15 +40,12 @@ key_data = np.array(["neurons_per_layer: " + str(neuronsPerLayer),
                      "layer: " + str(layer),
                      "field: " + str(field),
                      "record: " + str(record),
-                     "training_length: " + str(training_length)],
-                    dtype='|S')
+                     "training_length: " + str(len(AI.fitnessHistory))],
+                     dtype='|S')
 print(key_data)
 np.savetxt('wrt/NeuNetNorm/key_data.txt', key_data, fmt='%s')
 
 # output
-x = np.arange(0, len(fit_history), 1)
-plott.plott(x, fit_history, "wrt/NeuNetNorm/fitness_timeline.html")
-print("\n" + "fitness: " + str(AI.get_fitness(course_GOOG.testData, mode="bin")))
 data = base.separate_data(course_GOOG.allData, 0, length=AI.neurons_per_layer)
 prediction = AI.predict(data)
 print("prediction: "+str(prediction)+"\n")

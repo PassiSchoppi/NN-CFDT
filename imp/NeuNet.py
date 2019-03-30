@@ -3,7 +3,7 @@ from tqdm import tqdm
 import random
 from random import randint
 import numpy as np
-
+import os
 
 class NeuNet:
     NeuNetContent = np.array([])
@@ -91,7 +91,7 @@ class NeuNet:
     # get fitness of neural network
     # noinspection PyUnboundLocalVariable
     def get_fitness(self, course, return_all=False, mode="pro"):
-        # enable the could_be stuff for meaningful results in %
+        # enable the 'could_be' stuff for meaningful results in %
         total = 0
         could_be = 1
         if return_all:
@@ -139,7 +139,7 @@ class NeuNet:
 
         # mutate all synapses from one neuron
         if (method == "neuron") or (method == 1):
-            start_fitness = self.get_fitness(course, mode="bin")
+            start_fitness = self.get_fitness(course, mode="sqr")
             for _ in tqdm(range(0, iterations)):
                 # mutate
                 x = randint(0, self.layer-1)
@@ -147,7 +147,7 @@ class NeuNet:
                 rand = random.uniform(-self.field, self.field)
                 self.NeuNetContent[x] = self.NeuNetContent[x] + rand
                 # check fitness
-                new_fitness = self.get_fitness(course, mode="bin")
+                new_fitness = self.get_fitness(course, mode="sqr")
                 if new_fitness <= start_fitness:
                     self.NeuNetContent[x] = save
                 else:

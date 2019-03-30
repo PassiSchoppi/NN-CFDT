@@ -12,7 +12,7 @@ records = str(lines[4])[10:len(lines[4])-1]
 
 course_GOOG = Course.Course("GOOG", "../wrt/CourseGOOG.csv")
 course_GOOG.read_course()
-course_GOOG.reformat_course(days_testing=110, record_size=records)
+course_GOOG.reformat_course(days_testing=110, record_size=int(records))
 NeuNet = NeuNet.NeuNet("../wrt/NeuNetNorm/NeuNetGOOG.csv", "../wrt/NeuNetNorm/NeuNetHistory.csv",
                        layer, neurons_per_layer, 2)
 NeuNet.read()

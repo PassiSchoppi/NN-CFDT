@@ -18,11 +18,9 @@ y = np.array([], dtype=np.float32)
 for i in x:
     y = np.append(y, NeuNet.rating(0.5, i))
 
-plott.plott(x, y,
-            "../wrt/NeuNetNorm/rating.html",
-            title="rating",
-            x_label="x",
-            y_label="y",
-            colour="blue",
-            width=3,
-            mode="line")
+plt = plott.Plott("../wrt/NeuNetNorm/rating.html",
+                  a_title="rating",
+                  a_x_label="x",
+                  a_y_label="y")
+plt.add_graph(y, legend="rating")
+plt.save_plott(mode="show")

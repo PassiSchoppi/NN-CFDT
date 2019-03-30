@@ -4,6 +4,7 @@ from decimal import *
 import sys
 sys.path.insert(0, "../imp/")
 import NeuNet  # noqa: E402
+
 lines = [line.rstrip('\n') for line in open("../wrt/NeuNetNorm/key_data.txt")]
 neurons_per_layer = str(lines[0])[21:len(lines[0])-1]
 layer = str(lines[2])[9:len(lines[2])-1]

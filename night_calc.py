@@ -13,7 +13,7 @@ import plott  # noqa: E402
 
 # initialising course
 course_GOOG = Course.Course("GOOG", "wrt/CourseGOOG.csv")
-# course_GOOG.download_course()
+# course_GOOG.download_course(ask=False)
 course_GOOG.read_course()
 
 training_mode = 0

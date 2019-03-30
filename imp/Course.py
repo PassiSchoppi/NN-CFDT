@@ -22,23 +22,24 @@ class Course:
     def write_course(self):
         np.savetxt(str(self.tableName), self.rawData, delimiter=",")
 
-    def download_course(self):
-        print("downloading...")
-        self.rawData = web.get_data_yahoo(str(self.courseTag))
-        self.rawData.to_csv(path_or_buf=str(self.tableName))
-        self.read_course()
+    def download_course(self, ask=True):
+        if ask:
+            if input("want to download latest course(y/n): ") == "y":
+                print("downloading...")
+                self.rawData = web.get_data_yahoo(str(self.courseTag))
+                self.rawData.to_csv(path_or_buf=str(self.tableName))
+                self.read_course()
+        else:
+            print("downloading...")
+            self.rawData = web.get_data_yahoo(str(self.courseTag))
+            self.rawData.to_csv(path_or_buf=str(self.tableName))
+            self.read_course()
+
     
     def reformat_course(self, days_testing=110, record_size=510, plot=False):
         self.allData = []
         for i in range(1, len(self.rawData)):
             self.allData = np.append(self.allData, (float(self.rawData[i][4]) / float(self.rawData[i][3]))-1)
-            self.allData = self.allData[len(self.allData)-record_size:len(self.allData)]
-            self.trainData = self.allData[0: len(self.allData)-days_testing]
-            self.testData = self.allData[days_testing: len(self.allData)]
-            if plot:
-                print("("+str(float(self.rawData[i][4])), end=' / ')
-                print(str(float(self.rawData[i][3]))+") - 1", end=' = ')
-                print(str((float(self.rawData[i][4]) / float(self.rawData[i][3]))-1), end="\n")
-                print(course_GOOG.allData)
-                print(course_GOOG.trainData)
-                print(course_GOOG.testData)
+        self.allData = self.allData[len(self.allData)-record_size:len(self.allData)]
+        self.trainData = self.allData[0: len(self.allData)-days_testing]
+        self.testData = self.allData[len(self.allData)-days_testing: len(self.allData)]

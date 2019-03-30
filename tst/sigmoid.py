@@ -18,11 +18,9 @@ y = np.array([], dtype=np.float32)
 for i in x:
     y = np.append(y, NeuNet.sigmoid(i))
 
-plott.plott(x, y,
-            "../wrt/NeuNetNorm/sigmoid.html",
-            title="sigmoid",
-            x_label="x",
-            y_label="y",
-            colour="blue",
-            width=3,
-            mode="line")
+plt = plott.Plott("../wrt/NeuNetNorm/sigmoid.html",
+                  a_title="sigmoid",
+                  a_x_label="x",
+                  a_y_label="y")
+plt.add_graph(y, legend="sigmoid")
+plt.save_plott(mode="show")
